@@ -6,8 +6,15 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.home.ssq.data.bean.ResultBean
+import com.home.ssq.ext.execute
+import com.home.ssq.net.RxCreator
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
@@ -29,7 +36,35 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        initData()
     }
+
+    /**
+     * 网络请求获取数据
+     */
+    private fun initData() {
+        RxCreator.getRxService()
+                .get("/ssq-10.json")
+                .execute(object : Observer<ResultBean> {
+                    override fun onComplete() {
+
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                    }
+
+                    override fun onNext(t: ResultBean) {
+                        Log.e("main", t.toString())
+                    }
+
+                    override fun onError(e: Throwable) {
+                    }
+
+                })
+
+    }
+
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
