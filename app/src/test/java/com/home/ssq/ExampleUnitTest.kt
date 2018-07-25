@@ -18,8 +18,9 @@ class ExampleUnitTest {
 
     @Test
     fun getnum() {
+        val c= "20,29,14,22,3,26+8"
         val a = "06,12,14,20,22,24+09"
-        val listBallNum = getListBallNum(a)
+        val listBallNum = getListBallNum(c)
         val b =listBallNum.toString()
         print(b)
     }

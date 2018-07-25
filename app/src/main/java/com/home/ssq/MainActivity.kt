@@ -1,7 +1,6 @@
 package com.home.ssq
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -10,17 +9,14 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import com.home.ssq.data.bean.Data
-import com.home.ssq.data.bean.ResultBean
-import com.home.ssq.ext.execute
-import com.home.ssq.net.RxCreator
-import com.home.ssq.ui.adapter.BallAdapter
-import io.reactivex.Observable
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
+import com.home.ssq.ui.HistoryActivity
+import com.home.ssq.ui.adapter.BallRandomAdapter
+import com.home.ssq.util.getBlueNum
+import com.home.ssq.util.getRedNum
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -40,41 +36,41 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-
+        initView()
         initData()
     }
 
-    /**
-     * 网络请求获取数据
-     */
     private fun initData() {
-        RxCreator.getRxService()
-                .get("/ssq-10.json")
-                .execute(object : Observer<ResultBean> {
-                    override fun onComplete() {
-
-                    }
-
-                    override fun onSubscribe(d: Disposable) {
-                    }
-
-                    override fun onNext(t: ResultBean) {
-                        Log.e("main", t.toString())
-                        val data = t.data
-                        initView(data)
-                    }
-
-                    override fun onError(e: Throwable) {
-                    }
-
-                })
-
+        button2.setOnClickListener {
+            initView()
+        }
     }
 
-    private fun initView(data: MutableList<Data>) {
-        val adapter = BallAdapter(R.layout.app_item_card, data)
+    private fun initView() {
+        val list = arrayListOf<String>()
+        for (i in 1..5) {
+            val a = getRandomString()
+            Log.e("main", "a=$a")
+            list.add(a)
+        }
+        val adapter = BallRandomAdapter(R.layout.app_item_b_card, list)
         mMainRv.layoutManager = LinearLayoutManager(this)
         mMainRv.adapter = adapter
+    }
+
+    private fun getRandomString(): String {
+        val a = StringBuilder()
+        for (i in 1..6) {
+            val b = getRedNum()
+            if (i == 6) {
+                a.append(b)
+            } else {
+                a.append("$b,")
+            }
+        }
+        val c = getBlueNum()
+        a.append("+$c")
+        return a.toString()
     }
 
 
@@ -112,7 +108,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
             R.id.nav_slideshow -> {
-
+                startActivity<HistoryActivity>()
             }
             R.id.nav_manage -> {
 

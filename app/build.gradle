@@ -46,4 +46,7 @@ dependencies {
 
     //BRVAH
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+
+    // Anko Commons
+    api "org.jetbrains.anko:anko-commons:$anko_version"
 }
