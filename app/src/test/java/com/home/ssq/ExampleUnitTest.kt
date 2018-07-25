@@ -1,5 +1,6 @@
 package com.home.ssq
 
+import com.home.ssq.util.getListBallNum
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -13,5 +14,13 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
+    }
+
+    @Test
+    fun getnum() {
+        val a = "06,12,14,20,22,24+09"
+        val listBallNum = getListBallNum(a)
+        val b =listBallNum.toString()
+        print(b)
     }
 }
