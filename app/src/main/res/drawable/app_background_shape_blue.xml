@@ -4,8 +4,8 @@
     android:useLevel="true">
 
     <size
-        android:width="48dp"
-        android:height="48dp" />
+        android:width="42dp"
+        android:height="42dp" />
     <stroke
         android:width="2dp"
         android:color="@color/colorBlue" />
