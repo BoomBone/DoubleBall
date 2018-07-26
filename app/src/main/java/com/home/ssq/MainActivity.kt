@@ -11,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.home.ssq.ui.HistoryActivity
 import com.home.ssq.ui.adapter.BallRandomAdapter
+import com.home.ssq.ui.adapter.BallRandomBAdapter
 import com.home.ssq.util.getBlueNum
 import com.home.ssq.util.getRedNum
 import kotlinx.android.synthetic.main.activity_main.*
@@ -49,11 +50,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun initView() {
         val list = arrayListOf<String>()
         for (i in 1..5) {
-            val a = getRandomString()
+            val a = getRandomBString()
             Log.e("main", "a=$a")
             list.add(a)
         }
-        val adapter = BallRandomAdapter(R.layout.app_item_b_card, list)
+        val adapter = BallRandomBAdapter(R.layout.app_item_b_card, list)
         mMainRv.layoutManager = LinearLayoutManager(this)
         mMainRv.adapter = adapter
     }
@@ -71,6 +72,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val c = getBlueNum()
         a.append("+$c")
         return a.toString()
+    }
+
+    private fun getRandomBString(): String {
+        val ballNum = StringBuilder()
+        val setList = mutableSetOf<Int>()
+        while (true) {
+            val randomNum = getRedNum()
+            setList.add(randomNum)
+            if (setList.size == 6) {
+                break
+            }
+        }
+        setList.forEach {
+            ballNum.append("$it,")
+        }
+        val b = getBlueNum()
+        val c = ballNum.append(b).toString()
+        return c
     }
 
 
